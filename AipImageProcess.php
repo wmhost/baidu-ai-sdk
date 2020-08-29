@@ -36,6 +36,18 @@ class AipImageProcess extends AipBase {
      */
     private $contrastEnhanceUrl = 'https://aip.baidubce.com/rest/2.0/image-process/v1/contrast_enhance';
 
+    /**
+     * 黑白图像上色 colourize api url
+     * @var string
+     */
+    private $colourizeUrl = 'https://aip.baidubce.com/rest/2.0/image-process/v1/colourize';
+
+    /**
+     * 拉伸图像恢复 stretch_restore api url
+     * @var string
+     */
+    private $stretchRestoreUrl = 'https://aip.baidubce.com/rest/2.0/image-process/v1/stretch_restore';
+
     
 
     /**
@@ -93,5 +105,43 @@ class AipImageProcess extends AipBase {
         $data = array_merge($data, $options);
 
         return $this->request($this->contrastEnhanceUrl, $data);
+    }
+
+    /**
+     * 黑白图像上色接口
+     *
+     * @param string $image - 图像数据，base64编码，要求base64编码后大小不超过4M，最短边至少15px，最长边最大4096px,支持jpg/png/bmp格式
+     * @param array $options - 可选参数对象，key: value都为string类型
+     * @description options列表:
+     * @return array
+     */
+    public function colourize($image, $options=array()){
+
+        $data = array();
+        
+        $data['image'] = base64_encode($image);
+
+        $data = array_merge($data, $options);
+
+        return $this->request($this->colourizeUrl, $data);
+    }
+
+    /**
+     * 拉伸图像恢复接口
+     *
+     * @param string $image - 图像数据，base64编码，要求base64编码后大小不超过4M，最短边至少15px，最长边最大4096px,支持jpg/png/bmp格式
+     * @param array $options - 可选参数对象，key: value都为string类型
+     * @description options列表:
+     * @return array
+     */
+    public function stretchRestore($image, $options=array()){
+
+        $data = array();
+        
+        $data['image'] = base64_encode($image);
+
+        $data = array_merge($data, $options);
+
+        return $this->request($this->stretchRestoreUrl, $data);
     }
 }

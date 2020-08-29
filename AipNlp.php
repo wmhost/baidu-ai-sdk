@@ -103,6 +103,12 @@ class AipNlp extends AipBase {
     private $newsSummaryUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/news_summary';
 
     /**
+     * 地址识别接口 address api url
+     * @var string
+     */
+    private $addressUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/address';
+
+    /**
      * 格式化结果
      * @param $content string
      * @return mixed
@@ -405,5 +411,25 @@ class AipNlp extends AipBase {
         $data = mb_convert_encoding(json_encode($data), 'GBK', 'UTF8');
 
         return $this->request($this->newsSummaryUrl, $data);
+    }
+
+    /**
+     * 地址识别接口接口
+     *
+     * @param string $text - 待识别的文本内容，不超过1000字节
+     * @param array $options - 可选参数对象，key: value都为string类型
+     * @description options列表:
+     * @return array
+     */
+    public function address($text, $options=array()){
+
+        $data = array();
+        
+        $data['text'] = $text;
+
+        $data = array_merge($data, $options);
+        $data = mb_convert_encoding(json_encode($data), 'GBK', 'UTF8');
+
+        return $this->request($this->addressUrl, $data);
     }
 }

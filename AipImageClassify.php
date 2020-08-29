@@ -37,6 +37,18 @@ class AipImageClassify extends AipBase {
     private $carDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/car';
 
     /**
+     * 车辆检测 vehicle_detect api url
+     * @var string
+     */
+    private $vehicleDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/vehicle_detect';
+
+    /**
+     * 车辆外观损伤识别 vehicle_damage api url
+     * @var string
+     */
+    private $vehicleDamageUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/vehicle_damage';
+
+    /**
      * logo商标识别 logo_search api url
      * @var string
      */
@@ -165,6 +177,46 @@ class AipImageClassify extends AipBase {
         $data = array_merge($data, $options);
 
         return $this->request($this->carDetectUrl, $data);
+    }
+
+    /**
+     * 车辆检测接口
+     *
+     * @param string $image - 图像数据，base64编码，要求base64编码后大小不超过4M，最短边至少15px，最长边最大4096px,支持jpg/png/bmp格式
+     * @param array $options - 可选参数对象，key: value都为string类型
+     * @description options列表:
+     *   show 是否返回结果图（含统计值和跟踪框）。选true时返回渲染后的图片(base64)，其它无效值或为空则默认false。
+     *   area 只统计该区域内的车辆数，缺省时为全图统计。<br>逗号分隔，如‘x1,y1,x2,y2,x3,y3...xn,yn'，按顺序依次给出每个顶点的x、y坐标（默认尾点和首点相连），形成闭合多边形区域。<br>服务会做范围（顶点左边需在图像范围内）及个数校验（数组长度必须为偶数，且大于3个顶点）。只支持单个多边形区域，建议设置矩形框，即4个顶点。**坐标取值不能超过图像宽度和高度，比如1280的宽度，坐标值最大到1279**。
+     * @return array
+     */
+    public function vehicleDetect($image, $options=array()){
+
+        $data = array();
+        
+        $data['image'] = base64_encode($image);
+
+        $data = array_merge($data, $options);
+
+        return $this->request($this->vehicleDetectUrl, $data);
+    }
+
+    /**
+     * 车辆外观损伤识别接口
+     *
+     * @param string $image - 图像数据，base64编码，要求base64编码后大小不超过4M，最短边至少15px，最长边最大4096px,支持jpg/png/bmp格式
+     * @param array $options - 可选参数对象，key: value都为string类型
+     * @description options列表:
+     * @return array
+     */
+    public function vehicleDamage($image, $options=array()){
+
+        $data = array();
+        
+        $data['image'] = base64_encode($image);
+
+        $data = array_merge($data, $options);
+
+        return $this->request($this->vehicleDamageUrl, $data);
     }
 
     /**
