@@ -114,7 +114,10 @@ class AipNlp extends AipBase {
      * @return mixed
      */
     protected function proccessResult($content){
-        return json_decode(mb_convert_encoding($content, 'UTF8', 'GBK'), true, 512, JSON_BIGINT_AS_STRING);
+        if(mb_detect_encoding($content, ['GBK', 'UTF-8']) !== 'UTF-8'){
+           $content = mb_convert_encoding($content, 'UTF8', 'GBK');
+        }
+        return json_decode($content, true, 512, JSON_BIGINT_AS_STRING);
     }
 
     /**
